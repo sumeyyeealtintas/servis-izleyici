@@ -1,0 +1,26 @@
+groups:
+  - name: servis-uyarilari
+    rules:
+      - alert: HedefKapali
+        expr: izleyici_hedef_ayakta == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.hedef }} ({{ $labels.tur }}) 1 dakikadır erişilemiyor"
+
+      - alert: YavasYanit
+        expr: izleyici_yanit_suresi_saniye > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.hedef }} yavaş yanıt veriyor ({{ $value | humanizeDuration }})"
+
+      - alert: IzleyiciVeriGelmiyor
+        expr: absent(izleyici_hedef_ayakta)
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "İzleyiciden hiç metrik gelmiyor; izleyicinin kendisi çökmüş olabilir"

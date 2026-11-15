@@ -1,0 +1,25 @@
+# Servis İzleyici yapılandırması
+# Her hedef: ad (benzersiz), tur (http | tcp | dns), adres, ve türe göre ek alanlar.
+aralik_sn: 15          # Kaç saniyede bir kontrol edilsin
+
+hedefler:
+  - ad: github-web
+    tur: http
+    adres: https://github.com
+    beklenen_durum: 200
+    zaman_asimi: 5
+
+  - ad: github-dns
+    tur: dns
+    adres: github.com
+
+  - ad: cloudflare-dns-tcp
+    tur: tcp
+    adres: 1.1.1.1
+    port: 53
+    zaman_asimi: 3
+
+  # İzleyicinin kendisi (kendi sağlık ucunu da izleyebiliriz)
+  - ad: izleyici-kendisi
+    tur: http
+    adres: http://localhost:8000/saglik

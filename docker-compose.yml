@@ -1,0 +1,39 @@
+# Tek komutla izleme yığını:  docker compose up -d --build
+#   İzleyici   -> http://localhost:8000/docs   (metrikler: /metrics)
+#   Prometheus -> http://localhost:9090        (uyarılar: /alerts)
+#   Grafana    -> http://localhost:3000        (kullanıcı: admin, şifre: admin; ilk girişte değiştirin)
+services:
+  izleyici:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./izleme.yaml:/uygulama/izleme.yaml:ro
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/uyari_kurallari.yml:/etc/prometheus/uyari_kurallari.yml:ro
+      - prometheus_veri:/prometheus
+    depends_on:
+      - izleyici
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_veri:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  prometheus_veri:
+  grafana_veri:
