@@ -1,5 +1,7 @@
 # 📡 Servis İzleyici
 
+[![Testler](https://github.com/sumeyyeealtintas/servis-izleyici/actions/workflows/ci.yml/badge.svg)](https://github.com/sumeyyeealtintas/servis-izleyici/actions/workflows/ci.yml)
+
 Web siteleri, TCP portları ve DNS kayıtlarını **periyodik olarak kontrol eden** ve sonuçları **Prometheus formatında sunan** küçük bir izleme (monitoring) servisi. Docker Compose ile Prometheus ve Grafana'yla birlikte tek komutla ayağa kalkar.
 
 > "Servis çalışıyor mu, ne kadar hızlı yanıt veriyor, çökerse kim haber verecek?" sorusunun cevabı.
@@ -85,7 +87,7 @@ GitHub Actions testleri çalıştırır, ardından Docker imajını derler ve co
 ```
 
 ## ⚠️ Doğrulama Notu
-27 testin tamamı geçti ve servis gerçek hedeflere (GitHub, DNS, Cloudflare) karşı çalıştırılıp doğrulandı. Docker imajının derlenmesi ve compose yığınının çalıştırılması geliştirme bilgisayarında Docker kapalı olduğu için denenmedi; compose dosyasının sözdizimi `docker compose config` ile doğrulandı, GitHub Actions imaj derlemesini her push'ta kontrol eder.
+27 testin tamamı geçer ve servis gerçek hedeflere (GitHub, DNS, Cloudflare) karşı çalıştırılıp doğrulandı. **Docker imajının derlenmesi ve `docker compose config` doğrulaması her push'ta GitHub Actions'ta çalışır** (rozete bakın). Tam yığının (izleyici + Prometheus + Grafana) çalışır halde uçtan uca denenmesi yerel Docker ile ayrıca yapılmalıdır.
 
 ## 🔭 Geliştirme Fikirleri
 - Alertmanager + Telegram bildirimi
